@@ -10,18 +10,13 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\search\EventSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Events';
+$this->title = 'Supplier Events';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="event-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Event', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -42,19 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($data) {
                     return $data->getStatusName();
                 }
-            ],
-            [
-                'class' => ActionColumn::className(),
-                'template' => '{confirmed}{update}',
-                'buttons' => [
-                        'confirmed' => function ($url, $data) {
-                            if ($data->status === Event::STATUS_CREATED) {
-                                return Html::a('Подтвердить', [$data], [
-                                    'class' => 'btn btn-success'
-                                ]);
-                            }
-                        }
-                ]
             ],
         ],
     ]); ?>

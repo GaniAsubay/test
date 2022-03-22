@@ -27,9 +27,6 @@ class Supplier extends \yii\db\ActiveRecord
 
     const REQUEST_TYPE_GET = 1;
     CONST REQUEST_TYPE_POST = 2;
-    const REQUEST_TYPE_PUT = 3;
-    const REQUEST_TYPE_PATCH = 4;
-    const REQUEST_TYPE_DELETE = 5;
 
     /**
      * {@inheritdoc}
@@ -66,9 +63,6 @@ class Supplier extends \yii\db\ActiveRecord
         return [
             self::REQUEST_TYPE_GET => 'GET',
             self::REQUEST_TYPE_POST => 'POST',
-            self::REQUEST_TYPE_PUT => 'PUT',
-            self::REQUEST_TYPE_PATCH => 'PATCH',
-            self::REQUEST_TYPE_DELETE => 'DELETE',
         ];
     }
 
@@ -79,6 +73,11 @@ class Supplier extends \yii\db\ActiveRecord
             'goal' => '{goal}',
             'price' => '{price}'
         ];
+    }
+
+    public function getRequestType ()
+    {
+        return self::getRequestTypes()[$this->type];
     }
 
     /**

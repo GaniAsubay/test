@@ -36,9 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_created',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {update} {delete} {events}',
                 'urlCreator' => function ($action, Supplier $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'buttons' => [
+                        'events' => function($url, $data) {
+                            return Html::a('События', $url, [
+                            ]);
+                        }
+                ]
             ],
         ],
     ]); ?>

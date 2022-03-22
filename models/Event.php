@@ -29,6 +29,7 @@ class Event extends \yii\db\ActiveRecord
     const STATUS_CREATED = 1;
     const STATUS_SENT = 2;
     const STATUS_CONFIRMED = 3;
+    const STATUS_FAILED= 4;
 
     /**
      * {@inheritdoc}
@@ -70,7 +71,13 @@ class Event extends \yii\db\ActiveRecord
           self::STATUS_CREATED => 'Создан',
           self::STATUS_SENT => 'Отправлен',
           self::STATUS_CONFIRMED => 'Подтвержден',
+          self::STATUS_FAILED => 'Провален',
         ];
+    }
+
+    public function getStatusName(): string
+    {
+        return self::getStatuses()[$this->status];
     }
 
     /**

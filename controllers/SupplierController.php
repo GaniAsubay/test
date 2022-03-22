@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\search\EventSearch;
 use app\models\Supplier;
 use app\models\search\SupplierSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -114,6 +116,19 @@ class SupplierController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionEvents($id)
+    {
+        $searchModel = new EventSearch();
+        $searchModel->supplier_id = $id;
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        return $this->render('events', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
     }
 
     /**

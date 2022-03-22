@@ -72,6 +72,15 @@ class Supplier extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getParameterKeys(): array
+    {
+        return [
+            'id' => '{id}',
+            'goal' => '{goal}',
+            'price' => '{price}'
+        ];
+    }
+
     /**
      * Gets query for [[Events]].
      *

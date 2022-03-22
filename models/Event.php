@@ -27,7 +27,8 @@ class Event extends \yii\db\ActiveRecord
     }
 
     const STATUS_CREATED = 1;
-    const STATUS_CONFIRMED = 2;
+    const STATUS_SENT = 2;
+    const STATUS_CONFIRMED = 3;
 
     /**
      * {@inheritdoc}
@@ -67,6 +68,7 @@ class Event extends \yii\db\ActiveRecord
     {
         return [
           self::STATUS_CREATED => 'Создан',
+          self::STATUS_SENT => 'Отправлен',
           self::STATUS_CONFIRMED => 'Подтвержден',
         ];
     }

@@ -37,9 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Event $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                'template' => '{confirmed}',
+                'buttons' => [
+                        'confirmed' => function ($data) {
+                            return Html::a('Подтвердить', [$data], [
+                                    'class' => 'btn btn-success'
+                            ]);
+                        }
+                ]
             ],
         ],
     ]); ?>

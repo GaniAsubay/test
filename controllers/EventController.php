@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\Event;
 use app\models\search\EventSearch;
 use app\models\Supplier;
+use app\services\EventService;
 use function Couchbase\defaultDecoder;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -13,6 +15,7 @@ use yii\filters\VerbFilter;
 
 /**
  * EventController implements the CRUD actions for Event model.
+ * @property EventService $eventService
  */
 class EventController extends Controller
 {
@@ -79,7 +82,7 @@ class EventController extends Controller
         } else {
             $model->loadDefaultValues();
         }
-        $suppliers = ArrayHelper::map(Supplier::find()->select(['id','endpoint'])->asArray()->all(), 'id','endpoint');
+        $suppliers = Yii::$app->eventService->getSuppliersMap();
         return $this->render('create', [
             'model' => $model,
             'suppliers' => $suppliers,
@@ -100,7 +103,7 @@ class EventController extends Controller
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-        $suppliers = ArrayHelper::map(Supplier::find()->select(['id','endpoint'])->asArray()->all(), 'id','endpoint');
+        $suppliers = Yii::$app->eventService->getSuppliersMap();
         return $this->render('update', [
             'model' => $model,
             'suppliers' => $suppliers,
@@ -113,12 +116,18 @@ class EventController extends Controller
      * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionConfirmed($id)
+    {
+        Yii::$app->eventService->sentByEndpoint($id);
     }
 
     /**
